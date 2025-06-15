@@ -3,14 +3,15 @@
 
 #include <stdlib.h>
 
-typedef struct Node Node;
+typedef struct No No;
 typedef struct Lista Lista;
 
-Lista* criarLista(size_t);
-int inserirInicio(Lista*, void*);
-void inserirFim(Lista*, void*);
-void removerNo(Lista*, void*);
-void imprimirLista(Lista*, void (*imprime)(const void*));
-void liberarLista(Lista*);
+Lista* criarLista();
+int inserirInicio(Lista* lista, void* dado);
+int inserirFim(Lista* lista, void* dado);
+void* removerPosicao(Lista* lista, int posicao);
+void* obterDadoPosicao(Lista* lista, int posicao);
+void imprimirLista(Lista* lista, void (*imprime)(const void*));
+void liberarLista(Lista* lista);
 
 #endif
