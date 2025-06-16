@@ -25,7 +25,7 @@ void usarItemDoInventario(Lista* inven, int posicao /*, Jogador jogador*/) {
 
     printf("\nVoce usou: %s", item->nome);
     if(item->tipo == ITEM_POCAO_CURA || item->tipo == ITEM_REPELENTE) {
-        void* dado_removido = removerPosicao(inven, item);
+        void* dado_removido = removerPosicao(inven, posicao);
         free(dado_removido);
     }
 }

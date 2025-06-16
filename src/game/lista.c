@@ -124,3 +124,7 @@ void liberarLista(Lista* lista) {
     }
     free(lista);
 }
+
+int tamanhoLista(Lista* lista) {
+    return lista->tamanho;
+}

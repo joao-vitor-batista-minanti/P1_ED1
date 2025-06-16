@@ -20,7 +20,7 @@ Posicao* popPilha(Pilha* pilha) {
 }
 
 int isPilhaEmpty(Pilha* pilha) {
-    // pilha->tamanho == 0? return 1 : return 0;
+    return tamanhoLista(pilha) == 0;
 }
 
 void liberarPilha(Pilha* pilha) {
