@@ -67,14 +67,13 @@ void* removerPosicao(Lista* lista, int posicao) {
     No* anterior = NULL;
     void* dado_removido = NULL;
 
+    anterior = lista->comeco;    
     if(posicao == 1) {
-        remover = lista->comeco;
         lista->comeco = lista->comeco->prox;
         if(lista->comeco == NULL) {
             lista->fim = NULL;
         }
     } else {
-        anterior = lista->comeco;
         for(int i = 1 ; i < posicao - 1 ; i++) {
             anterior = anterior->prox;
         }

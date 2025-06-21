@@ -3,10 +3,13 @@
 
 #include "lista.h"
 #include "item.h"
+#include "jogador.h"
+#include "mapa.h"
 
 void adicionarAoInventario(Lista* inven, Item* item);
 void exibirInventario(Lista* inven);
 void usarItemDoInventario(Lista* inven, int posicao);
 void descartarItemDoInventario(Lista* inven, int posicao);
+void exibirMenuInventario(Jogador* jogador);
 
 #endif

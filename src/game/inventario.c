@@ -41,3 +41,33 @@ void descartarItemDoInventario(Lista* inven, int posicao) {
         printf("\nPosicao Invalida do Inventario.");
     }
 }
+
+void limparBuffer() {
+    int c;
+    while((c = getchar) != '\n' && c != EOF);
+}
+
+void exibirMenuInventario(Jogador* jogador) {
+    int escolha = 0;
+    int posicao = 0;
+
+    while(escolha != 3) {
+        exibirInventario(jogador->inventario);
+        printf("\nOpcoes:\n1. Usar Item\n2. Descartar Item\n3. Voltar\n> ");
+        scanf("%d", &escolha);
+        limparBuffer();
+        if(escolha == 3) break;
+
+        printf("Digite a posicao do item: ");
+        scanf("%d", posicao);
+        switch(escolha) {
+            case 1: usarItemDoInventario(jogador->inventario, posicao); break;
+            case 2: descartarItemDoInventario(jogador->inventario, posicao); break;
+            case 3: printf("Ue, como assim\n"); break;
+            default: printf("\nOPCAO INVALIDA\n.");
+        }
+        printf("\nAperte enter para continuar...");
+        getchar();
+        desenharMapa(criarMapa(), jogador);
+    }
+}
