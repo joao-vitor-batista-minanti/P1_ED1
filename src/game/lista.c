@@ -2,17 +2,6 @@
 #include <stdlib.h>
 #include "../../include/game/lista.h"
 
-struct No {
-    void* dado;
-    struct No* prox;
-};
-
-struct Lista {
-    int tamanho;
-    No* comeco;
-    No* fim;
-};
-
 Lista* criarLista() {
     Lista* lista = (Lista*)malloc(sizeof(Lista));
     if(lista != NULL) {

@@ -46,8 +46,8 @@ void popularMapa(Mapa* mapa, int num_item, int num_armadilhas) {
 }
 
 void desenharMapa(Mapa* mapa, Jogador* jogador) {
-    system("cls" || "clear");
-    printf("\n============ DUNGEON ============\n");
+    system("clear");
+    printf("\n============ DUNGEON ============\n\n");
     for(int y = 0 ; y < MAPA_ALTURA ; y++) {
         for(int x = 0 ; x < MAPA_LARGURA ; x++) {
             if(x == jogador->pos_x && y == jogador->pos_y) {
@@ -61,7 +61,7 @@ void desenharMapa(Mapa* mapa, Jogador* jogador) {
         }
         printf("\n");
     }
-    printf("===================================\n");
+    printf("\n===================================\n");
     printf("Vida: %d\n", jogador->vida);
 }
 

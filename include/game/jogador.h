@@ -1,9 +1,8 @@
 #ifndef JOGADOR_H
 #define JOGADOR_H
 
-#include "inventario.h"
-
-typedef struct Jogador {
+#include "lista.h"
+typedef struct Jogador{
     int pos_x;
     int pos_y;
     int vida;

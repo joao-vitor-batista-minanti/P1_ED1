@@ -2,6 +2,8 @@
 #define MAPA_H
 
 #include "jogador.h"
+#include "inventario.h" 
+#include "jogador.h"
 
 #define MAPA_LARGURA 20
 #define MAPA_ALTURA 10

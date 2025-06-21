@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "include/game/inventario.h"
-#include "include/game/item.h"
-#include "include/game/jogador.h"
-#include "include/game/mapa.h"
-#include "include/game/pilha.h"
-#include "include/game/lista.h"
-
+#include "../include/game/inventario.h"
+#include "../include/game/item.h"
+#include "../include/game/jogador.h"
+#include "../include/game/mapa.h"
+#include "../include/game/pilha.h"
+#include "../include/game/lista.h"
+#include "../include/utils/log.h"
+#include "../include/utils/input_handler.h"
 
 int main() {
     Jogador* jogador = criarJogador(1, 1, 100);
@@ -25,8 +26,7 @@ int main() {
 
         printf("Use W, A, S, D para mover\n");
         printf("MENU: [I] Inventario | [Z] Desfazer | [Q] Sair\n>");
-        scanf(" %c", &input);
-        limparBuffer();
+        input = getInput();
         int next_x = jogador->pos_x;
         int next_y = jogador->pos_y;
 
@@ -51,49 +51,47 @@ int main() {
                 continue;
             case 'q': case 'Q':
                 jogo_ativo = 0;
-                continue;       
-            default:
-                printf("Comando Invalido\n");
-                continue; 
+                continue;
         }
 
-        if(mapa->data[next_x][next_y] != PAREDE) {
-        pushPilha(historico_movimentos, pos_atual.x, pos_atual.y);
-        jogador->pos_x = next_x;
-        jogador->pos_y = next_y;
+        if(mapa->data[next_y][next_x] != PAREDE) {
+            pushPilha(historico_movimentos, pos_atual.x, pos_atual.y);
+            jogador->pos_x = next_x;
+            jogador->pos_y = next_y;
 
-        char title_atual = mapa->data[jogador->pos_y][jogador->pos_x];
+            char title_atual = mapa->data[jogador->pos_y][jogador->pos_x];
 
-        switch(title_atual) {
-            case ITEM:
-                printf("Voce Encontrou uma Pocao de Cura.\n");
-                adicionarAoInventario(jogador->inventario, criarItem("Pocao de Cura", "Restaura 20 de Vida.", ITEM_POCAO_CURA, 20));
-                mapa->data[jogador->pos_y][jogador->pos_y] = CAMINHO;
-                break;
-            case ARMADILHA:
-                printf("Vocec Caiu em Uma Armadilha. -10 de Vida.\n");
-                jogador->vida -= 10;
-                break;
-            case SAIDA:
-                printf("Parabens, Voce encontrou a Saida.");
+            switch(title_atual) {
+                case ITEM:
+                    printf("Voce Encontrou uma Pocao de Cura.\n");
+                    adicionarAoInventario(jogador->inventario, criarItem("Pocao de Cura", "Restaura 20 de Vida.", ITEM_POCAO_CURA, 20));
+                    mapa->data[jogador->pos_y][jogador->pos_x] = CAMINHO;
+                    break;
+                case ARMADILHA:
+                    printf("Vocec Caiu em Uma Armadilha. -10 de Vida.\n");
+                    jogador->vida -= 10;
+                    break;
+                case SAIDA:
+                    printf("Parabens, Voce encontrou a Saida.");
+                    jogo_ativo = 0;
+                    continue; 
+            }
+            if(jogador->vida <= 0) {
+                printf("Game Over. Vida Zerada\n");
                 jogo_ativo = 0;
-                continue; 
-        }
-        if(jogador->vida <= 0) {
-            printf("Game Over. Vida Zerada\n");
-            jogo_ativo = 0;
-        }
+            }
         } else {
             printf("Voce Bateu na Parede\n");
         }
         if(jogo_ativo) {
             printf("Pressione Enter para Continuar.\n");
-            getchar();
+            // getInput();
         }
     }
-    printf("\n=== FIM DE JOGO ===\n");
+    printf("\n=== FIM DE JOGO ===\n\n");
     liberarJogador(jogador);
     liberarMapa(mapa);
     liberarPilha(historico_movimentos);
+    system("pause");
     return 0;
 }

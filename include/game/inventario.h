@@ -3,9 +3,12 @@
 
 #include "lista.h"
 #include "item.h"
-#include "jogador.h"
 #include "mapa.h"
+#include "jogador.h"
 
+#include "../utils/input_handler.h"
+
+void limparBuffer();
 void adicionarAoInventario(Lista* inven, Item* item);
 void exibirInventario(Lista* inven);
 void usarItemDoInventario(Lista* inven, int posicao);

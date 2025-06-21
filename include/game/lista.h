@@ -1,10 +1,16 @@
-#ifndef FILA_H
+#ifndef LISTA_H
 #define LISTA_H
 
-#include <stdlib.h>
+typedef struct No {
+    void* dado;
+    struct No* prox;
+}No;
 
-typedef struct No No;
-typedef struct Lista Lista;
+typedef struct Lista {
+    int tamanho;
+    No* comeco;
+    No* fim;
+} Lista;
 
 Lista* criarLista();
 int inserirInicio(Lista* lista, void* dado);

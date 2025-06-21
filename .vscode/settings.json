@@ -8,6 +8,10 @@
     },
     "hide-files.files": [],
     "files.associations": {
-        "item.h": "c"
+        "item.h": "c",
+        "inventario.h": "c",
+        "jogador.h": "c",
+        "pilha.h": "c",
+        "random": "c"
     }
 }

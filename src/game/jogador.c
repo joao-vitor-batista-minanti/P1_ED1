@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../include./game/jogador.h"
-
+#include "../../include/game/jogador.h"
 
 Jogador* criarJogador(int x, int y, int vida) {
     Jogador* novo = (Jogador*)malloc(sizeof(Jogador));

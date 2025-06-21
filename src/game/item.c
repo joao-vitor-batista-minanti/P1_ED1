@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 #include "../../include/game/item.h"
 
 Item* criarItem(const char* nome, const char* desc, TipoItem tipo, int valor) {

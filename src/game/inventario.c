@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "../../include/game/inventario.h"
 
 void adicionarAoInventario(Lista* inven, Item* item) {
@@ -42,11 +41,6 @@ void descartarItemDoInventario(Lista* inven, int posicao) {
     }
 }
 
-void limparBuffer() {
-    int c;
-    while((c = getchar) != '\n' && c != EOF);
-}
-
 void exibirMenuInventario(Jogador* jogador) {
     int escolha = 0;
     int posicao = 0;
@@ -59,7 +53,7 @@ void exibirMenuInventario(Jogador* jogador) {
         if(escolha == 3) break;
 
         printf("Digite a posicao do item: ");
-        scanf("%d", posicao);
+        scanf("%d", &posicao);
         switch(escolha) {
             case 1: usarItemDoInventario(jogador->inventario, posicao); break;
             case 2: descartarItemDoInventario(jogador->inventario, posicao); break;
@@ -67,7 +61,12 @@ void exibirMenuInventario(Jogador* jogador) {
             default: printf("\nOPCAO INVALIDA\n.");
         }
         printf("\nAperte enter para continuar...");
-        getchar();
+        getInput();
         desenharMapa(criarMapa(), jogador);
-    }
+    }    
+}
+
+void limparBuffer() {
+    int c;
+    while((c = getchar()) != '\n' && c != EOF);
 }
