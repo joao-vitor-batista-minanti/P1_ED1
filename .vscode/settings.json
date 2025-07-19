@@ -12,6 +12,7 @@
         "inventario.h": "c",
         "jogador.h": "c",
         "pilha.h": "c",
-        "random": "c"
+        "random": "c",
+        "status.h": "c"
     }
 }

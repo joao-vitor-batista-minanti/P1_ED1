@@ -1,18 +1,16 @@
 #ifndef INVENTARIO_H
 #define INVENTARIO_H
 
-#include "lista.h"
 #include "item.h"
-#include "mapa.h"
 #include "jogador.h"
 
 #include "../utils/input_handler.h"
 
 void limparBuffer();
-void adicionarAoInventario(Lista* inven, Item* item);
-void exibirInventario(Lista* inven);
-void usarItemDoInventario(Lista* inven, int posicao);
-void descartarItemDoInventario(Lista* inven, int posicao);
+void adicionarAoInventario(Jogador* jogador, Item* item);
+void exibirInventario(Jogador* jogador);
+void usarItemDoInventario(Jogador* jogador, int posicao);
+void descartarItemDoInventario(Jogador* jogador, int posicao);
 void exibirMenuInventario(Jogador* jogador);
 
 #endif
