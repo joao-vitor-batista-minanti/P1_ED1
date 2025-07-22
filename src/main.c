@@ -8,7 +8,6 @@
 #include "../include/game/mapa.h"
 #include "../include/game/pilha.h"
 #include "../include/game/lista.h"
-#include "../include/utils/log.h"
 #include "../include/utils/input_handler.h"
 #include "../include/game/batalha.h"
 
@@ -109,7 +108,7 @@ int main() {
                 }
 
                 case INIMIGO:
-                    if(jogadorTemEfeito(jogador, ITEM_REPELENTE)) {
+                    if(jogadorTemEfeito(jogador)) {
                         printf("Inimigo Afastado Pelo Repelente.\n");
                         mapa->data[jogador->pos_y][jogador->pos_x] = CAMINHO;
                         break;
@@ -137,7 +136,7 @@ int main() {
                     break;
 
                 case SAIDA:
-                    printf("\n\nParabens, Voce encontrou a Saida.\n");
+                    printf("\n\nParabens, Voce Chegou a Saida.\n");
                     printf("Moedas Coletadas: %d\n", jogador->moedas);
                     jogo_ativo = 0;
                     continue; 
@@ -151,7 +150,7 @@ int main() {
         }
         if(jogo_ativo) {
             printf("Pressione Enter para Continuar.\n");
-            // getchar();
+            getchar();
         }
     }
     printf("=== FIM DE JOGO ===\n\n");

@@ -3,7 +3,6 @@
 
 #include "lista.h"
 #include "inventario.h"
-#include "status.h"
 typedef struct Jogador{
     int pos_x;
     int pos_y;
@@ -12,13 +11,13 @@ typedef struct Jogador{
     int moedas;
     int ataque;
     Lista* inventario;
-    Lista* efeitos;
+    int duracao_repelente;
 } Jogador;
 
 Jogador* criarJogador(int x, int y, int vida);
 void liberarJogador(Jogador* jogador);
-void adicionarEfeito(Jogador* jogador, EfeitoTipo tipo, int duracao);
+void aplicarRepelente(Jogador* jogador, int duracao);
 void atualizarEfeito(Jogador* jogador);
-int jogadorTemEfeito(Jogador* jogador, EfeitoTipo tipo);
+int jogadorTemEfeito(Jogador* jogador);
 
 #endif

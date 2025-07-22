@@ -64,7 +64,8 @@ void desenharMapa(Mapa* mapa, Jogador* jogador) {
                 printf("%c", JOGADOR_CHAR);
             } else {
                 if(mapa->data[y][x] == INIMIGO || mapa->data[y][x] == ARMADILHA) {
-                    printf("%c", CAMINHO);
+                    // printf("%c", CAMINHO);
+                    printf("%c", mapa->data[y][x]);
                 } else {
                     printf("%c", mapa->data[y][x]);
                 }

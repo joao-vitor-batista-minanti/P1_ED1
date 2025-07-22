@@ -63,7 +63,7 @@ void usarItemDoInventario(Jogador* jogador, int posicao) {
             break;
         
         case ITEM_REPELENTE:
-            adicionarEfeito(jogador, EFEITO_REPELENTE, item->valor);
+            aplicarRepelente(jogador, item->valor);
             printf("Voce Esta Protegido de Encontros de Inimigos por %d Passos", item->valor);
             removerPosicao(jogador->inventario, posicao);
             free(item); 

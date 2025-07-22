@@ -13,7 +13,7 @@ Jogador* criarJogador(int x, int y, int vida) {
         novo->moedas = 0;
         novo->ataque = 10;
         novo->inventario = criarLista();
-        novo->efeitos = criarLista();
+        novo->duracao_repelente = 0;
     }
     return novo;
 }
@@ -21,50 +21,24 @@ Jogador* criarJogador(int x, int y, int vida) {
 void liberarJogador(Jogador* jogador) {
     if(jogador != NULL) {
         liberarLista(jogador->inventario);
-        liberarLista(jogador->efeitos);
         free(jogador);
     }
 }
 
-void adicionarEfeito(Jogador* jogador, EfeitoTipo tipo, int duracao) {
+void aplicarRepelente(Jogador* jogador, int duracao) {
     if(!jogador) return;
-
-    Status* novo_status = criarStatus(tipo, duracao);
-    if(novo_status) inserirFim(jogador->efeitos, novo_status);
+    jogador->duracao_repelente = duracao;
 }
 
 void atualizarEfeito(Jogador* jogador) {
-    if(!jogador || !jogador->efeitos) return;
-
-    No* atual = jogador->efeitos->comeco;
-    int pos = 1;
-    while(atual != NULL) {
-        Status* s = (Status*)atual->dado;
-        s->duracao--;
-
-        No* proximo = atual->prox;
-
-        if(s->duracao <= 0) {
-            printf("O Efeito do Repelente Acabou!\n");
-            void* dado_removido = removerPosicao(jogador->efeitos, pos);
-            free(dado_removido); 
-        } else {
-            pos++;
-        }
-        atual = proximo;
+    if(!jogador || jogador->duracao_repelente <= 0) return;
+    jogador->duracao_repelente--;
+    if(jogador->duracao_repelente <= 0) {
+        printf("O efeito do repelente acabou.\n");
     }
 }
 
-int jogadorTemEfeito(Jogador* jogador, EfeitoTipo tipo) {
-    if(!jogador || !jogador->efeitos) return 0;
-
-    No* atual = jogador->efeitos->comeco;
-    while(atual != NULL) {
-        Status* s = (Status*)atual->dado;
-        if(s->tipo == tipo) {
-            return 1;
-        }
-        atual = atual->prox;
-    }
-    return 0;
+int jogadorTemEfeito(Jogador* jogador) {
+    if(!jogador) return 0;
+    return jogador->duracao_repelente > 0;
 }
