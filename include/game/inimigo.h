@@ -10,6 +10,7 @@ typedef struct Inimigo {
     int vida;
     int vida_max;
     int ataque;
+    int limite_cura;
     NoArvore* ia_arvore;
     Lista* loot;
 } Inimigo;

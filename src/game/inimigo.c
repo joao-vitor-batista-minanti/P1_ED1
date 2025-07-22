@@ -21,6 +21,7 @@ Inimigo* criarInimigo(const char* nome, int vida, int ataque) {
     inimigo->vida = vida;
     inimigo->vida_max = vida;
     inimigo->ataque = ataque;
+    inimigo->limite_cura = 4;
     inimigo->loot = criarLista();
 
     NoArvore* acao_atacar = criarNoAcao(ACAO_ATACAR);

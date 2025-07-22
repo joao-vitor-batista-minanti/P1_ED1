@@ -11,7 +11,7 @@ void exibirTelaCombate(Jogador* jogador, Inimigo* inimigo) {
     printf("----------------\n");
 }
 
-void turnoDoJogador(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, int* inimigo_defende) {
+void turnoDoJogador(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, int* inimigo_defende, int* fugiu) {
     char acao;
     printf("Seu turno! Escolha sua acao:\n");
     printf(" [A] Atacar\n");
@@ -60,7 +60,7 @@ void turnoDoJogador(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, in
             double chance = ((double)jogador->vida / jogador->vida_max * (double)inimigo->vida / inimigo->vida_max * (1 - (double)inimigo->vida / inimigo->vida_max)) * 100;
             if ((rand() % 100) < chance) {
                 printf("Voce Conseguiu Fugir!\n");
-                jogador->vida = -999; 
+                *fugiu = 1; 
             } else {
                 printf("A Fuga Falhou!\n");
             }
@@ -76,7 +76,6 @@ void turnoDoJogador(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, in
 void turnoDoInimigo(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, int* inimigo_defende) {
     printf("Turno do %s!\n", inimigo->nome);
 
-    int limite_cura = 4;
     AcaoInimigo acao = decidirAcao(inimigo->ia_arvore, jogador, inimigo);
 
     switch(acao) {
@@ -104,11 +103,11 @@ void turnoDoInimigo(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, in
         }
 
         case ACAO_USAR_CURA: {
-            if(limite_cura >= 0) {
+            if(inimigo->limite_cura >= 0) {
                 int cura = 10;
                 inimigo->vida += cura;
                 printf("O %s Usa uma Habilidade De Cura e Recupera Vida!\n", inimigo->nome);
-                limite_cura--;
+                inimigo->limite_cura--;
                 break;
             } else {
                 jogador->vida -= inimigo->ataque;
@@ -120,16 +119,15 @@ void turnoDoInimigo(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, in
 
 
 EstadoBatalha iniciarBatalha(Jogador* jogador, Inimigo* inimigo) {
-    int vida_inicial_jogador = jogador->vida;
     int jogador_defende = 0;
     int inimigo_defende = 0;
+    int fugiu = 0;
 
     while (jogador->vida > 0 && inimigo->vida > 0) {
         exibirTelaCombate(jogador, inimigo);
-        turnoDoJogador(jogador, inimigo, &jogador_defende, &inimigo_defende);
+        turnoDoJogador(jogador, inimigo, &jogador_defende, &inimigo_defende, &fugiu);
 
-        if (jogador->vida == -999) {
-            jogador->vida = vida_inicial_jogador;
+        if (fugiu) {
             return BATALHA_EM_ANDAMENTO;
         }
 

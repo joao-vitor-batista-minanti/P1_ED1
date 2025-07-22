@@ -11,7 +11,7 @@ typedef enum {
 } EstadoBatalha;
 
 void exibirTelaCombate(Jogador* jogador, Inimigo* inimigo);
-void turnoDoJogador(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, int* inimigo_defende);
+void turnoDoJogador(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, int* inimigo_defende, int* fugiu);
 void turnoDoInimigo(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, int* inimigo_defende);
 EstadoBatalha iniciarBatalha(Jogador* jogador, Inimigo* inimigo);
 

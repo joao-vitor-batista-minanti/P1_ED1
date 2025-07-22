@@ -14,7 +14,7 @@
 #define SAIDA 'S'
 #define JOGADOR_CHAR '@'
 
-// typedef struct Jogador Jogador;
+typedef struct Jogador Jogador;
 typedef struct {
     char data[MAPA_ALTURA][MAPA_LARGURA];
 } Mapa;

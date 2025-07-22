@@ -117,12 +117,16 @@ int main() {
 
                     printf("Voce Encontrou um Inimigo!\n");
 
-                    Inimigo* inimigo = criarInimigo("Goblin", 50, 5); 
+                    Inimigo* inimigo = criarInimigo("Goblin", 40, 5); 
                     EstadoBatalha resultado = iniciarBatalha(jogador, inimigo);
                     if(resultado == BATALHA_VITORIA_JOGADOR) {
                         mapa->data[jogador->pos_y][jogador->pos_x] = CAMINHO;
+                        jogador->moedas += 10;
                     } else if(resultado == BATALHA_VITORIA_INIMIGO) {
                         jogo_ativo = 0;
+                    } else if (resultado == BATALHA_EM_ANDAMENTO) {
+                        printf("Voce Fugiu da Batalha.\n");
+                        mapa->data[jogador->pos_y][jogador->pos_x] = CAMINHO;
                     }
                     liberarInimigo(inimigo);
                     break;
