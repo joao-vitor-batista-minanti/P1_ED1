@@ -8,18 +8,20 @@
 
 #define PAREDE '#'
 #define CAMINHO ' '
-#define ITEM 'I'
+#define ITEM 'B'
 #define ARMADILHA 'T'
+#define INIMIGO 'E'
 #define SAIDA 'S'
 #define JOGADOR_CHAR '@'
 
+// typedef struct Jogador Jogador;
 typedef struct {
     char data[MAPA_ALTURA][MAPA_LARGURA];
 } Mapa;
 
 Mapa* criarMapa();
 void inicializarMapa(Mapa* mapa);
-void popularMapa(Mapa* mapa, int num_item, int num_armadilhas);
+void popularMapa(Mapa* mapa, Jogador* jogador, int num_item, int num_armadilhas, int num_inimigos);
 void desenharMapa(Mapa* mapa, Jogador* jogador);
 void liberarMapa(Mapa* mapa);
 

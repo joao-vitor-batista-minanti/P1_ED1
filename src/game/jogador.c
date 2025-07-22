@@ -9,7 +9,9 @@ Jogador* criarJogador(int x, int y, int vida) {
         novo->pos_x = x;
         novo->pos_y = y;
         novo->vida = vida;
+        novo->vida_max = 100; 
         novo->moedas = 0;
+        novo->ataque = 10;
         novo->inventario = criarLista();
         novo->efeitos = criarLista();
     }
@@ -31,7 +33,7 @@ void adicionarEfeito(Jogador* jogador, EfeitoTipo tipo, int duracao) {
     if(novo_status) inserirFim(jogador->efeitos, novo_status);
 }
 
-void atualizaEfeitos(Jogador* jogador) {
+void atualizarEfeito(Jogador* jogador) {
     if(!jogador || !jogador->efeitos) return;
 
     No* atual = jogador->efeitos->comeco;

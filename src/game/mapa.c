@@ -7,6 +7,8 @@ Mapa* criarMapa() {
     Mapa* novo = (Mapa*)malloc(sizeof(Mapa));
     if(novo != NULL) {
         return novo;
+    } else {
+        return NULL;
     }
 }
 
@@ -24,8 +26,7 @@ void inicializarMapa(Mapa* mapa) {
     mapa->data[MAPA_ALTURA - 2][MAPA_LARGURA - 2] = SAIDA;
 }
 
-void popularMapa(Mapa* mapa, int num_item, int num_armadilhas) {
-    srand(time(NULL));
+void popularMapa(Mapa* mapa, Jogador* jogador, int num_item, int num_armadilhas, int num_inimigos) {
     for(int i = 0 ; i < num_item ; i++) {
         int x, y;
         do {
@@ -40,8 +41,17 @@ void popularMapa(Mapa* mapa, int num_item, int num_armadilhas) {
         do {
             y = rand() % MAPA_ALTURA;
             x = rand() % MAPA_LARGURA;
-        } while(mapa->data[y][x] != CAMINHO);
+        } while(mapa->data[y][x] != CAMINHO || (x == jogador->pos_x && y == jogador->pos_y));
         mapa->data[y][x] = ARMADILHA;
+    }
+
+    for(int i = 0 ; i < num_inimigos ; i++) {
+        int x, y;
+        do {
+            y = rand() % MAPA_ALTURA;
+            x = rand() % MAPA_LARGURA;
+        } while(mapa->data[y][x] != CAMINHO || (x == jogador->pos_x && y == jogador->pos_y));
+        mapa->data[y][x] = INIMIGO;
     }
 }
 
@@ -52,17 +62,18 @@ void desenharMapa(Mapa* mapa, Jogador* jogador) {
         for(int x = 0 ; x < MAPA_LARGURA ; x++) {
             if(x == jogador->pos_x && y == jogador->pos_y) {
                 printf("%c", JOGADOR_CHAR);
-            } else if (mapa->data[y][x] == ARMADILHA) {
-                printf("%c", CAMINHO);
-            }
-            else {
-                printf("%c", mapa->data[y][x]);
+            } else {
+                if(mapa->data[y][x] == INIMIGO || mapa->data[y][x] == ARMADILHA) {
+                    printf("%c", CAMINHO);
+                } else {
+                    printf("%c", mapa->data[y][x]);
+                }
             }
         }
         printf("\n");
     }
     printf("\n===================================\n");
-    printf("Vida: %d\n", jogador->vida);
+    printf("Vida: %d | Moedas: %d\n", jogador->vida, jogador->moedas);
 }
 
 void liberarMapa(Mapa* mapa) {

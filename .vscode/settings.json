@@ -13,6 +13,9 @@
         "jogador.h": "c",
         "pilha.h": "c",
         "random": "c",
-        "status.h": "c"
+        "status.h": "c",
+        "array": "c",
+        "string": "c",
+        "batalha.h": "c"
     }
 }

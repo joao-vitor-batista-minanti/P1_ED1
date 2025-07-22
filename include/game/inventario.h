@@ -3,9 +3,11 @@
 
 #include "item.h"
 #include "jogador.h"
+#include "mapa.h"
 
 #include "../utils/input_handler.h"
 
+typedef struct Jogador Jogador;
 void limparBuffer();
 void adicionarAoInventario(Jogador* jogador, Item* item);
 void exibirInventario(Jogador* jogador);

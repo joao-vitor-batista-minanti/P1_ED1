@@ -20,5 +20,6 @@ void* obterDadoPosicao(Lista* lista, int posicao);
 void imprimirLista(Lista* lista, void (*imprime)(const void*));
 void liberarLista(Lista* lista);
 int tamanhoLista(Lista* lista);
+int isListaEmpty(Lista* lista);
 
 #endif

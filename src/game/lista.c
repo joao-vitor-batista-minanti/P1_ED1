@@ -58,6 +58,7 @@ void* removerPosicao(Lista* lista, int posicao) {
 
     anterior = lista->comeco;    
     if(posicao == 1) {
+        remover = lista->comeco;
         lista->comeco = lista->comeco->prox;
         if(lista->comeco == NULL) {
             lista->fim = NULL;
@@ -74,6 +75,7 @@ void* removerPosicao(Lista* lista, int posicao) {
     }
     dado_removido = remover->dado;
     free(remover);
+    lista->tamanho--;
     return dado_removido;
 }
 
@@ -87,7 +89,7 @@ void* obterDadoPosicao(Lista* lista, int posicao) {
 
 void imprimirLista(Lista* lista, void (*imprime)(const void*)) {
     if(lista == NULL || lista->comeco == NULL) {
-        printf("\nInventario Vazio.");
+        printf("\nInventario Vazio.\n");
         return;
     }
 
@@ -97,6 +99,7 @@ void imprimirLista(Lista* lista, void (*imprime)(const void*)) {
         printf("\n%d ", posicao);
         imprime(atual->dado);
         atual = atual->prox;
+        posicao++;
     }
 }
 
@@ -115,4 +118,9 @@ void liberarLista(Lista* lista) {
 
 int tamanhoLista(Lista* lista) {
     return lista->tamanho;
+}
+
+int isListaEmpty(Lista* lista) {
+    if (!lista) return 1;
+    return lista->tamanho == 0;
 }

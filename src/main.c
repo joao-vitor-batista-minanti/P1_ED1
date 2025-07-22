@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "../include/game/inventario.h"
 #include "../include/game/item.h"
@@ -9,20 +10,40 @@
 #include "../include/game/lista.h"
 #include "../include/utils/log.h"
 #include "../include/utils/input_handler.h"
+#include "../include/game/batalha.h"
 
 int main() {
+    srand(time(NULL));
     Jogador* jogador = criarJogador(1, 1, 100);
+    if(jogador == NULL) {
+        printf("Erro ao criar jogador.\n");
+        return 1;
+    }
+
     Mapa* mapa = criarMapa();
+    if(mapa == NULL) {
+        printf("Erro ao criar mapa.\n");
+        liberarJogador(jogador);
+        return 1;
+    }
+
     Pilha* historico_movimentos = criarPilha();
+    if(historico_movimentos == NULL) {
+        printf("Erro ao criar pilha de movimentos.\n");
+        liberarJogador(jogador);
+        liberarMapa(mapa);
+        return 1;
+    }
 
     inicializarMapa(mapa);
-    popularMapa(mapa, 5, 5);
+    popularMapa(mapa, jogador, 5, 5, 5);
 
     int jogo_ativo = 1;
     char input;
 
     while(jogo_ativo) {
         desenharMapa(mapa, jogador);
+        atualizarEfeito(jogador);
 
         printf("Use W, A, S, D para mover\n");
         printf("MENU: [I] Inventario | [Z] Desfazer | [Q] Sair\n>");
@@ -36,19 +57,26 @@ int main() {
             case 's': case 'S': next_y++; break;
             case 'a': case 'A': next_x--; break;
             case 'd': case 'D': next_x++; break;
+
             case 'i': case 'I':
                 exibirMenuInventario(jogador);
                 continue;
+
             case 'z': case 'Z':
                 if(!isPilhaEmpty(historico_movimentos)) {
                     Posicao* pos_anterior = popPilha(historico_movimentos);
-                    jogador->pos_x = pos_anterior->x;
-                    jogador->pos_y = pos_anterior->y;
-                    free(pos_anterior);
+                    if(pos_anterior != NULL) {
+                        jogador->pos_x = pos_anterior->x;
+                        jogador->pos_y = pos_anterior->y;
+                        free(pos_anterior);
+                    } else {
+                        printf("ERRO: NAO EXISTE MOVIMENTOS ANTERIORES.\n");
+                    }
                 } else {
                     printf("Nao ha Movimentos Para Desfazer\n");
                 }
                 continue;
+
             case 'q': case 'Q':
                 jogo_ativo = 0;
                 continue;
@@ -57,22 +85,56 @@ int main() {
         if(mapa->data[next_y][next_x] != PAREDE) {
             pushPilha(historico_movimentos, pos_atual.x, pos_atual.y);
             jogador->pos_x = next_x;
-            jogador->pos_y = next_y;
+            jogador->pos_y = next_y; 
 
-            char title_atual = mapa->data[jogador->pos_y][jogador->pos_x];
+            switch(mapa->data[jogador->pos_y][jogador->pos_x]) {
+                case ITEM: {
+                    int tipo_aleatorio = rand() % 3;
+                    Item* item_encontrado;
 
-            switch(title_atual) {
-                case ITEM:
-                    printf("Voce Encontrou uma Pocao de Cura.\n");
-                    adicionarAoInventario(jogador->inventario, criarItem("Pocao de Cura", "Restaura 20 de Vida.", ITEM_POCAO_CURA, 20));
+                    switch(tipo_aleatorio) {
+                        case 0:
+                            item_encontrado = criarItem("Pocao de Cura", "Restaura 20 de Vida.", ITEM_POCAO_CURA, 20);
+                            break;
+                        case 1:
+                            item_encontrado = criarItem("Repelente", "Evita inimigos por 5 passos", ITEM_REPELENTE, 5);
+                            break;
+                        case 2:
+                            item_encontrado = criarItem("Moedas", "Dinheiro do jogo", ITEM_MOEDA, 10);
+                            break;
+                    }
+                    adicionarAoInventario(jogador, item_encontrado);
                     mapa->data[jogador->pos_y][jogador->pos_x] = CAMINHO;
                     break;
+                }
+
+                case INIMIGO:
+                    if(jogadorTemEfeito(jogador, ITEM_REPELENTE)) {
+                        printf("Inimigo Afastado Pelo Repelente.\n");
+                        mapa->data[jogador->pos_y][jogador->pos_x] = CAMINHO;
+                        break;
+                    }
+
+                    printf("Voce Encontrou um Inimigo!\n");
+
+                    Inimigo* inimigo = criarInimigo("Goblin", 50, 5); 
+                    EstadoBatalha resultado = iniciarBatalha(jogador, inimigo);
+                    if(resultado == BATALHA_VITORIA_JOGADOR) {
+                        mapa->data[jogador->pos_y][jogador->pos_x] = CAMINHO;
+                    } else if(resultado == BATALHA_VITORIA_INIMIGO) {
+                        jogo_ativo = 0;
+                    }
+                    liberarInimigo(inimigo);
+                    break;
+
                 case ARMADILHA:
-                    printf("Vocec Caiu em Uma Armadilha. -10 de Vida.\n");
+                    printf("Voce Caiu em Uma Armadilha. -10 de Vida.\n");
                     jogador->vida -= 10;
                     break;
+
                 case SAIDA:
-                    printf("Parabens, Voce encontrou a Saida.");
+                    printf("\n\nParabens, Voce encontrou a Saida.\n");
+                    printf("Moedas Coletadas: %d\n", jogador->moedas);
                     jogo_ativo = 0;
                     continue; 
             }
@@ -85,10 +147,10 @@ int main() {
         }
         if(jogo_ativo) {
             printf("Pressione Enter para Continuar.\n");
-            // getInput();
+            // getchar();
         }
     }
-    printf("\n=== FIM DE JOGO ===\n\n");
+    printf("=== FIM DE JOGO ===\n\n");
     liberarJogador(jogador);
     liberarMapa(mapa);
     liberarPilha(historico_movimentos);

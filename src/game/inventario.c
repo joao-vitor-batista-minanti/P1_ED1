@@ -3,14 +3,22 @@
 #include "../../include/game/inventario.h"
 
 void adicionarAoInventario(Jogador* jogador, Item* item) {
-    if(!jogador || !item) return;
+    if(!jogador || !item) {
+        printf("ERRO AO ADICIONAR ITEM\n");
+        return;
+    }
 
     if(item->tipo == ITEM_MOEDA) {
         jogador->moedas += item->valor;
         printf("Você Coletou %d Moedas! Total: %d\n", item->valor, jogador->moedas);
         free(item);
     } else {
-        inserirFim(jogador->inventario, (void*)item);
+        int sucesso = inserirFim(jogador->inventario, (void*)item);
+        if(!sucesso) {
+            printf("ERRO: Nao foi possivel adicionar o item ao inventario.\n");
+            free(item);
+            return;
+        }
         printf("'%s' foi adicionado ao inventario.\n", item->nome);
     }
 }
@@ -23,10 +31,15 @@ void exibirInventario(Jogador* jogador) {
 }
 
 void usarItemDoInventario(Jogador* jogador, int posicao) {
-    if(!jogador) {
+    if(!jogador || !jogador->inventario) {
         printf("\nJogador Invalido\n");
         return;
     }
+
+    if(posicao < 1 || posicao > tamanhoLista(jogador->inventario)) {
+        printf("\nPosicao Invalida no Inventario.\n");
+        return;
+    } 
 
     Item* item = (Item*)obterDadoPosicao(jogador->inventario, posicao);
     if(item == NULL) {
@@ -34,19 +47,26 @@ void usarItemDoInventario(Jogador* jogador, int posicao) {
         return;
     }
 
-    printf("\nVoce usou: %s", item->nome);
+    printf("\nVoce usou: %s\n", item->nome);
     
     switch(item->tipo) {
         case ITEM_POCAO_CURA:
-            jogador->vida += item->valor;
-            printf("\nSua Vida Aumentou em %d Pontos.\n", item->valor);
-            free(removerPosicao(jogador->inventario, posicao));
+            if(jogador->vida <= 80) {
+                jogador->vida += item->valor;
+                printf("Sua Vida Aumentou em %d Pontos.\n", item->valor);
+            } else {
+                jogador->vida = 100;
+                printf("Sua Vida Esta Cheia!\n");
+            }
+            removerPosicao(jogador->inventario, posicao);
+            free(item);  
             break;
         
         case ITEM_REPELENTE:
             adicionarEfeito(jogador, EFEITO_REPELENTE, item->valor);
             printf("Voce Esta Protegido de Encontros de Inimigos por %d Passos", item->valor);
-            free(removerPosicao(jogador->inventario, posicao));
+            removerPosicao(jogador->inventario, posicao);
+            free(item); 
             break;
         case ITEM_MOEDA:
             printf("\nMoedas Sao Coletadas Automaticamente!\n");
