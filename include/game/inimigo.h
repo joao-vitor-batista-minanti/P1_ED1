@@ -12,7 +12,6 @@ typedef struct Inimigo {
     int ataque;
     int limite_cura;
     NoArvore* ia_arvore;
-    Lista* loot;
 } Inimigo;
 
 Inimigo* criarInimigo(const char* nome, int vida, int ataque);
