@@ -150,7 +150,7 @@ int main() {
         }
         if(jogo_ativo) {
             printf("Pressione Enter para Continuar.\n");
-            getchar();
+            // getchar();
         }
     }
     printf("=== FIM DE JOGO ===\n\n");
