@@ -17,7 +17,7 @@ Inimigo* criarInimigo(const char* nome, int vida, int ataque) {
     Inimigo* inimigo = (Inimigo*)malloc(sizeof(Inimigo));
     if (!inimigo) return NULL;
 
-    strncpy(inimigo->nome, nome, 50);
+    strcpy(inimigo->nome, nome);
     inimigo->vida = vida;
     inimigo->vida_max = vida;
     inimigo->ataque = ataque;
@@ -28,7 +28,6 @@ Inimigo* criarInimigo(const char* nome, int vida, int ataque) {
     NoArvore* acao_curar = criarNoAcao(ACAO_USAR_CURA);
 
     NoArvore* decisao_vida_jogador = criarNoDecisao(cond_jogador_vida_media, acao_atacar, acao_defender);
-    
     inimigo->ia_arvore = criarNoDecisao(cond_inimigo_vida_alta, decisao_vida_jogador, acao_curar);
 
     return inimigo;

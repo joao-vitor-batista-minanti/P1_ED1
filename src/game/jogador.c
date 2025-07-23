@@ -34,7 +34,7 @@ void atualizarEfeito(Jogador* jogador) {
     if(!jogador || jogador->duracao_repelente <= 0) return;
     jogador->duracao_repelente--;
     if(jogador->duracao_repelente <= 0) {
-        printf("O efeito do repelente acabou.\n");
+        printf("O Efeito do Repelente Acabou.\n");
     }
 }
 

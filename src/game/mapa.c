@@ -5,11 +5,7 @@
 
 Mapa* criarMapa() {
     Mapa* novo = (Mapa*)malloc(sizeof(Mapa));
-    if(novo != NULL) {
-        return novo;
-    } else {
-        return NULL;
-    }
+    return novo;
 }
 
 void inicializarMapa(Mapa* mapa) {
@@ -32,7 +28,7 @@ void popularMapa(Mapa* mapa, Jogador* jogador, int num_item, int num_armadilhas,
         do {
             y = rand() % MAPA_ALTURA;
             x = rand() % MAPA_LARGURA;
-        } while(mapa->data[y][x] != CAMINHO);
+        } while(mapa->data[y][x] != CAMINHO || (x == jogador->pos_x && y == jogador->pos_y));
         mapa->data[y][x] = ITEM;
     }
 
@@ -64,8 +60,8 @@ void desenharMapa(Mapa* mapa, Jogador* jogador) {
                 printf("%c", JOGADOR_CHAR);
             } else {
                 if(mapa->data[y][x] == INIMIGO || mapa->data[y][x] == ARMADILHA) {
-                    // printf("%c", CAMINHO);
-                    printf("%c", mapa->data[y][x]);
+                    printf("%c", CAMINHO);
+                    // printf("%c", mapa->data[y][x]);
                 } else {
                     printf("%c", mapa->data[y][x]);
                 }

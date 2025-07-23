@@ -5,7 +5,7 @@
 #include "../../include/game/inventario.h"
 
 void exibirTelaCombate(Jogador* jogador, Inimigo* inimigo) {
-    printf("\n\n--- BATALHA ---\n");
+    printf("\n--- BATALHA ---\n");
     printf("Jogador - Vida: %d\n", jogador->vida);
     printf("%s - Vida: %d\n", inimigo->nome, inimigo->vida);
     printf("----------------\n");
@@ -103,7 +103,7 @@ void turnoDoInimigo(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, in
         }
 
         case ACAO_USAR_CURA: {
-            if(inimigo->limite_cura >= 0) {
+            if(inimigo->limite_cura > 0) {
                 int cura = 10;
                 inimigo->vida += cura;
                 printf("O %s Usa uma Habilidade De Cura e Recupera Vida!\n", inimigo->nome);
@@ -116,7 +116,6 @@ void turnoDoInimigo(Jogador* jogador, Inimigo* inimigo, int* jogador_defende, in
         }
     }
 }
-
 
 EstadoBatalha iniciarBatalha(Jogador* jogador, Inimigo* inimigo) {
     int jogador_defende = 0;

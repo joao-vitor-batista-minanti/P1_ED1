@@ -15,11 +15,11 @@ void adicionarAoInventario(Jogador* jogador, Item* item) {
     } else {
         int sucesso = inserirFim(jogador->inventario, (void*)item);
         if(!sucesso) {
-            printf("ERRO: Nao foi possivel adicionar o item ao inventario.\n");
+            printf("ERRO: Nao Foi Possivel Adicionar o Item ao Inventario.\n");
             free(item);
             return;
         }
-        printf("'%s' foi adicionado ao inventario.\n", item->nome);
+        printf("'%s' Foi Adicionado ao Inventario.\n", item->nome);
     }
 }
 
@@ -43,7 +43,7 @@ void usarItemDoInventario(Jogador* jogador, int posicao) {
 
     Item* item = (Item*)obterDadoPosicao(jogador->inventario, posicao);
     if(item == NULL) {
-        printf("\nPosicao dada invalida no inventario.");
+        printf("\nPosicao Invalida do Inventario.");
         return;
     }
 
@@ -68,6 +68,7 @@ void usarItemDoInventario(Jogador* jogador, int posicao) {
             removerPosicao(jogador->inventario, posicao);
             free(item); 
             break;
+
         case ITEM_MOEDA:
             printf("\nMoedas Sao Coletadas Automaticamente!\n");
             break;
@@ -106,12 +107,10 @@ void exibirMenuInventario(Jogador* jogador) {
         switch(escolha) {
             case 1: usarItemDoInventario(jogador, posicao); break;
             case 2: descartarItemDoInventario(jogador, posicao); break;
-            case 3: printf("Ue, como assim\n"); break;
             default: printf("\nOPCAO INVALIDA\n.");
         }
-        printf("\nAperte enter para continuar...");
+        printf("\nAperte Enter Para Continuar...");
         getInput();
-        desenharMapa(criarMapa(), jogador);
     }    
 }
 

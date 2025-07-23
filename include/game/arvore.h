@@ -18,13 +18,10 @@ typedef enum {
 
 typedef struct NoArvore {
     TipoNo tipo;
-
-    int (*condicao)(Jogador*, Inimigo*);
-
     AcaoInimigo acao;
+    int (*condicao)(Jogador*, Inimigo*);
     struct NoArvore *sim;
     struct NoArvore *nao; 
-
 } NoArvore;
 
 NoArvore* criarNoAcao(AcaoInimigo acao);
